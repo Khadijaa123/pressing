@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SousCategorie extends Model
 {
     protected $table = 'sous_categories';
-    protected $fillable = ['nom', 'id_categorie'];
+    protected $fillable = ['nom', 'id_categorie', 'photo', 'description'];
     public $timestamps = false; // Add this line to disable timestamps
     
     public function categorie()

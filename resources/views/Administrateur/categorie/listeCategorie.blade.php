@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
-    <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
     <!-- Bootstrap Css -->
@@ -20,7 +19,6 @@
 </head>
 
 <body data-sidebar="dark">
-    <!-- Begin page -->
     <div id="layout-wrapper">
         <header id="page-topbar">
             <div class="navbar-header">
@@ -69,7 +67,6 @@
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <!-- item-->
                             <a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle me-1"></i> <span key="t-profile">Profile</span></a>
                             <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle me-1"></i> <span key="t-my-wallet">My Wallet</span></a>
                             <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end">11</span><i class="bx bx-wrench font-size-16 align-middle me-1"></i> <span key="t-settings">Settings</span></a>
@@ -88,17 +85,11 @@
             </div>
         </header>
 
-        <!-- ========== Left Sidebar Start ========== -->
-        @include('Administrateur/layout/sidebar')
-        <!-- Left Sidebar End -->
+        @include('Administrateur.layout.sidebar')
 
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                    <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -106,7 +97,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- end page title -->
 
                     <div class="row">
                         <div class="col-12">
@@ -118,7 +108,8 @@
                                         <thead>
                                             <tr>
                                                 <th>Nom</th>
-                                                
+                                                <th>Description</th>
+                                                <th>Photo</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -127,9 +118,16 @@
                                             @foreach($data as $item)
                                             <tr>
                                                 <td style="vertical-align: middle;">{{ $item->nom }}</td>
-                                                <td style="vertical-align: middle;">{{ $item->id }}</td>
-                                                <td>
-                                                   <a href="{{ route('modifierCategorie', ['id' => $item->id]) }}"  class="btn btn-primary">Modifier</a>
+                                                <td style="vertical-align: middle;">{{ $item->description }}</td>
+                                                <td style="vertical-align: middle;">
+                                                    @if ($item->photo)
+                                                        <img src="{{ asset('images/services/' . $item->photo) }}" alt="{{ $item->nom }}" width="50" height="50">
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td style="vertical-align: middle;">
+                                                    <a href="{{ route('modifierCategorie', ['id' => $item->id]) }}" class="btn btn-primary">Modifier</a>
                                                     <a href="{{ route('categories.destroy', ['id' => $item->id]) }}" class="btn btn-danger">Supprimer</a>
                                                 </td>
                                             </tr>
@@ -142,7 +140,6 @@
                     </div> <!-- end row -->
                 </div> <!-- container-fluid -->
             </div>
-            <!-- End Page-content -->
 
             <footer class="footer">
                 <div class="container-fluid">
@@ -159,25 +156,16 @@
                 </div>
             </footer>
         </div>
-        <!-- end main content-->
 
-        <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
 
-        <!-- JAVASCRIPT -->
         <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('libs/metismenu/metisMenu.min.js') }}"></script>
         <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
         <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
-
-        <!-- apexcharts -->
         <script src="{{ asset('libs/apexcharts/apexcharts.min.js') }}"></script>
-
-        <!-- dashboard init -->
         <script src="{{ asset('js/pages/dashboard.init.js') }}"></script>
-
-        <!-- App js -->
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

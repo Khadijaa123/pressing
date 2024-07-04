@@ -64,34 +64,42 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title mb-4">Modifier les sous-catégories</h4>
-                                    <form action="{{ route('sousCategorie.update', ['id' => $sousCategorie->id]) }}"
-                                        method="POST">
+                                    <form action="{{ route('sousCategorie.update', ['id' => $sousCategorie->id]) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
 
                                         <div class="mb-4">
                                             <label for="nom" class="form-label">Nom de sous-catégorie</label>
-                                            <input id="nom" name="nom" type="text" class="form-control"
-                                                value="{{ $sousCategorie->nom }}">
+                                            <input id="nom" name="nom" type="text" class="form-control" value="{{ $sousCategorie->nom }}">
                                         </div>
 
                                         <div class="mb-4">
                                             <label for="id_categories" class="form-label">Catégorie</label>
                                             <select id="id_categories" name="id_categories" class="form-control">
-    @foreach($categories as $categorie)
-        <option value="{{ $categorie->id }}" {{ $categorie->id == $sousCategorie->categorie_id ? 'selected' : '' }}>
-            {{ $categorie->nom }}
-        </option>
-    @endforeach
-</select>
-
+                                                @foreach($categories as $categorie)
+                                                    <option value="{{ $categorie->id }}" {{ $categorie->id == $sousCategorie->id_categorie ? 'selected' : '' }}>
+                                                        {{ $categorie->nom }}
+                                                    </option>
+                                                @endforeach
                                             </select>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="description" class="form-label">Description</label>
+                                            <textarea id="description" name="description" class="form-control">{{ $sousCategorie->description }}</textarea>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="photo" class="form-label">Photo</label>
+                                            <input id="photo" name="photo" type="file" class="form-control">
+                                            @if($sousCategorie->photo)
+                                                <img src="{{ asset('images/services/' . $sousCategorie->photo) }}" alt="{{ $sousCategorie->nom }}" width="100" height="100" class="mt-2">
+                                            @endif
                                         </div>
 
                                         <div class="row justify-content-end">
                                             <div class="col-lg-10">
-                                                <button type="submit" class="btn btn-primary">Modifier la catégorie
-                                                </button>
+                                                <button type="submit" class="btn btn-primary">Modifier la sous-catégorie</button>
                                             </div>
                                         </div>
                                     </form>
@@ -99,12 +107,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+
+                </div> <!-- container-fluid -->
+            </div> <!-- End Page-content -->
+        </div> <!-- main-content -->
 
         @include('Administrateur.layout.footer')
     </div>
+
 </body>
 
 </html>

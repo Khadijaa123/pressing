@@ -96,7 +96,17 @@
                         <li><a href="{{ route('listeTransporteurs') }}" key="t-buttons">Liste des transporteurs</a></li>
                     </ul>
                 </li>
-
+                <li>
+                    <a href="javascript:void(0);" class="has-arrow waves-effect">
+                        <i class="fa fa-users" style="font-size:14px"></i>
+                        <span key="t-ui-elements">Equipe</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('ajouterEquipe') }}" key="t-alerts">Ajouter un Equipe</a></li>
+                        <li><a href="{{ route('listeEquipes') }}" key="t-buttons">Liste des Equipe</a></li>
+                    </ul>
+                </li>
+                
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-file"></i>

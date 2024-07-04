@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Categorie extends Model
+class equipe extends Model
 {
     use HasFactory;
     public $timestamps = false;
 
     // Nom de la table associée au modèle
-    protected $table = 'categories';
+    protected $table = 'equipe';
 
     // Les champs pouvant être remplis massivement
-    protected $fillable = ['nom', 'photo', 'description'];
-    public function sousCategories()
-    {
-        return $this->hasMany(SousCategorie::class);
-    }}
+    protected $fillable = ["id", "id_personel"];
+}

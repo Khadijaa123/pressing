@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
     <!-- Bootstrap Css -->
@@ -19,58 +20,53 @@
 </head>
 
 <body data-sidebar="dark">
+
+    <!-- Begin page -->
     <div id="layout-wrapper">
-
+        <!-- ========== Navbar Start ========== -->
         @include('Administrateur.layout.navbar')
-        @include('Administrateur.layout.sidebar')
+        <!-- Navbar End -->
 
+        <!-- ========== Left Sidebar Start ========== -->
+        @include('Administrateur.layout.sidebar')
+        <!-- Left Sidebar End -->
+
+        <!-- Start right Content here -->
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
+
+                    <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">Modifier Catégorie</h4>
+                                <h4 class="mb-sm-0 font-size-18">Ajouter Nouveau</h4>
                             </div>
                         </div>
                     </div>
+                    <!-- end page title -->
 
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title mb-4">Modifier la catégorie</h4>
-                                    <form action="{{ route('categorie.update', ['id' => $data->id]) }}" method="POST" enctype="multipart/form-data">
+                                    <h4 class="card-title mb-4">Ajouter Nouvelle Equipe</h4>
+                                    <form action="{{ route('equipe.store') }}" method="POST">
                                         @csrf
-                                        @method('PUT')
-                                    
                                         <div class="row mb-4">
-                                            <label for="nom" class="col-form-label col-lg-2">Nom de catégorie</label>
+                                            <label for="id_personnel" class="col-form-label col-lg-2">Membre de l'équipe</label>
                                             <div class="col-lg-10">
-                                                <input id="nom" name="nom" type="text" class="form-control"
-                                                    value="{{ $data->nom }}">
+                                                <select name="id_personnel" id="id_personnel" class="form-control">
+                                                    @foreach($data as $personnel)
+                                                        <option value="{{ $personnel->id }}">{{ $personnel->nom }} {{ $personnel->prenom }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                        </div>
-
-                                        <div class="row mb-4">
-                                            <label for="description" class="col-form-label col-lg-2">Description</label>
-                                            <div class="col-lg-10">
-                                                <textarea id="description" name="description" class="form-control"
-                                                    rows="3">{{ $data->description }}</textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-4">
-                                            <label for="photo" class="form-label">Photo</label>
-                                            <input id="photo" name="photo" type="file" class="form-control">
-                                            @if($data->photo)
-                                                <img src="{{ asset('images/services/' . $data->photo) }}" alt="{{ $data->nom }}" width="100" height="100" class="mt-2">
-                                            @endif
                                         </div>
 
                                         <div class="row justify-content-end">
                                             <div class="col-lg-10">
-                                                <button type="submit" class="btn btn-primary">Modifier la catégorie</button>
+                                                <button type="submit" class="btn btn-primary">Ajouter Membre à l'équipe</button>
                                             </div>
                                         </div>
                                     </form>
@@ -78,14 +74,19 @@
                             </div>
                         </div>
                     </div>
-                    <!-- end row -->
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
-            @include('Administrateur.layout.footer')
-        </div>
-    </div>
 
+            <!-- ========== Footer Start ========== -->
+            @include('Administrateur.layout.footer')
+            <!-- Footer End -->
+        </div>
+        <!-- end main content-->
+    </div>
+    <!-- end page -->
+
+    <!-- Vendor js -->
     <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('libs/metismenu/metisMenu.min.js') }}"></script>

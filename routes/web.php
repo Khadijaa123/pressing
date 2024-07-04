@@ -6,6 +6,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\TransporteurController;
 use App\Http\Controllers\PersonnelsController;
+use App\Http\Controllers\EquipeController;
 
 
 Route::get('/', function () {
@@ -70,13 +71,23 @@ Route::get('/modifierTransporteur/{id}', [TransporteurController::class, 'getTra
 Route::post('/transporteurU', [TransporteurController::class, 'updateTransporteur'])->name('transporteur.update');
 Route::get('/supprimerTransporteur/{id}', [TransporteurController::class, 'deleteTransporteur'])->name('supprimerTransporteur');
 
+// eqipe
+Route::get('/equipe', [EquipeController::class, 'getEquipes'])->name('listeEquipes');
+Route::get('/ajouterEquipe', [EquipeController::class, 'ajouterEquipe'])->name('ajouterEquipe');
+Route::post('/equipe', [EquipeController::class, 'store'])->name('equipe.store');
+Route::get('/modifierEquipe/{id}', [EquipeController::class, 'getEquipeId'])->name('modifierEquipe');
+Route::post('/equipeU', [EquipeController::class, 'updateEquipe'])->name('equipe.update');
+Route::get('/supprimerEquipe/{id}', [EquipeController::class, 'deleteEquipe'])->name('supprimerEquipe');
 
+
+////////////////////
 Route::get('/ajouterCategorie', [CategorieController::class, 'create'])->name('ajouterCategorie');
 Route::get('/listeCategorie', [CategorieController::class, 'getCategories'])->name('listeCategorie');
 Route::post('/categories', [CategorieController::class, 'store'])->name('categorie.store');
 Route::get('/modifierCategorie/{id}', [CategorieController::class, 'getCategorieById'])->name('modifierCategorie');
 Route::get('/categories/{id}', [CategorieController::class, 'destroy'])->name('categories.destroy');
-Route::post('/categorieU', [CategorieController::class, 'updateCategorie'])->name('categorie.update');
+Route::put('/categorieU/{id}', [CategorieController::class, 'update'])->name('categorie.update');
+
 
 
 use App\Http\Controllers\SousCategorieController;

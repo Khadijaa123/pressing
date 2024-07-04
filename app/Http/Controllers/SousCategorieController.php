@@ -19,21 +19,29 @@ class SousCategorieController extends Controller
         return view('Administrateur.souscategorie.create', compact('categories'));
     }
     public function store(Request $request)
-{
-    // Validate the request data
-    $validated = $request->validate([
-        'nom' => 'required|string|max:255',
-        'categorie_id' => 'required|integer|exists:categories,id',
-    ]);
+    {
+        // Validate the request data
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+            'categorie_id' => 'required|integer|exists:categories,id',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
+            'description' => 'required',
+        ]);
 
-    // Create a new sous categorie with the validated data
-    $sousCategorie = new SousCategorie();
-    $sousCategorie->nom = $validated['nom'];
-    $sousCategorie->id_categorie = $validated['categorie_id']; // Corrected to use 'categorie_id'
-    $sousCategorie->save();
+        // Enregistrement de l'image dans le dossier public/images/services
+        $imageName = time().'.'.$request->photo->extension();  
+        $request->photo->move(public_path('images/services'), $imageName);
 
-    return redirect()->route('listeSousCategories')->with('success', 'Sous-catégorie créée avec succès!');
-}
+        // Create a new sous categorie with the validated data
+        $sousCategorie = new SousCategorie();
+        $sousCategorie->nom = $validated['nom'];
+        $sousCategorie->photo = $imageName; // Stocker le nom de l'image dans la base de données
+        $sousCategorie->description = $request->description;
+        $sousCategorie->id_categorie = $validated['categorie_id']; // Corrected to use 'categorie_id'
+        $sousCategorie->save();
+
+        return redirect()->route('listeSousCategories')->with('success', 'Sous-catégorie créée avec succès!');
+    }
 public function edit($id)
 {
     $sousCategorie = SousCategorie::findOrFail($id);
@@ -44,23 +52,28 @@ public function edit($id)
 
 public function update(Request $request, $id)
 {
-    try {
-        $validated = $request->validate([
-            'nom' => 'required|string|max:255',
-            'id_categories' => 'required|exists:categories,id',
-        ]);
+    $sousCategorie = SousCategorie::findOrFail($id);
 
-        $sousCategorie = SousCategorie::findOrFail($id);
-        $sousCategorie->nom = $validated['nom'];
-        $sousCategorie->id_categorie = $validated['id_categories'];
-        $sousCategorie->save();
+    $validatedData = $request->validate([
+        'nom' => 'required|string|max:255',
+        'id_categories' => 'required|exists:categories,id',
+        'description' => 'nullable|string',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        return redirect()->route('listeSousCategories')->with('success', 'Sous-catégorie modifiée avec succès!');
-    } catch (ModelNotFoundException $e) {
-        return redirect()->route('listeSousCategories')->with('error', 'La sous-catégorie avec l\'ID spécifié n\'existe pas.');
-    } catch (\Exception $e) {
-        return redirect()->route('listeSousCategories')->with('error', 'Une erreur est survenue lors de la modification de la sous-catégorie.');
+    $sousCategorie->nom = $validatedData['nom'];
+    $sousCategorie->id_categorie = $validatedData['id_categories'];
+    $sousCategorie->description = $validatedData['description'];
+
+    if ($request->hasFile('photo')) {
+        $imageName = time() . '.' . $request->photo->extension();
+        $request->photo->move(public_path('images/services'), $imageName);
+        $sousCategorie->photo = $imageName;
     }
+
+    $sousCategorie->save();
+
+    return redirect()->route('listeSousCategories')->with('success', 'Sous-catégorie mise à jour avec succès');
 }
 public function getSousCategories()
 

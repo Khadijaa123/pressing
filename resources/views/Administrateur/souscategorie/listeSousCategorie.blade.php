@@ -56,30 +56,41 @@
                                             <tr>
                                                 <th>Nom</th>
                                                 <th>Catégorie Parente</th>
+                                                <th>Image</th>
+                                                <th>Description</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-    @foreach($data as $sousCategorie)
-    <tr>
-        <td>{{ $sousCategorie->nom }}</td>
-        @foreach($dataa as $Categorie)
-        @if($Categorie->id ==$sousCategorie->id_categorie )
-        <td>{{ $Categorie->nom }}</td>
-        @endif
-       
-            @endforeach
-        <td>
-            <a href="{{ route('sousCategorie.edit', ['id' => $sousCategorie->id]) }}" class="btn btn-primary">Modifier</a>
-            <form action="{{ route('sousCategorie.destroy', ['id' => $sousCategorie->id]) }}" method="POST" style="display: inline-block;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Supprimer</button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
-</tbody>
+                                            @foreach($data as $sousCategorie)
+                                                <tr>
+                                                    <td>{{ $sousCategorie->nom }}</td>
+                                                    <td>
+                                                        @foreach($dataa as $categorie)
+                                                            @if($categorie->id == $sousCategorie->id_categorie)
+                                                                {{ $categorie->nom }}
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td>
+                                                        @if($sousCategorie->photo)
+                                                            <img src="{{ asset('images/services/' . $sousCategorie->photo) }}" alt="{{ $sousCategorie->nom }}" width="50" height="50">
+                                                        @else
+                                                            Pas d'image
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $sousCategorie->description }}</td>
+                                                    <td>
+                                                        <a href="{{ route('sousCategorie.edit', ['id' => $sousCategorie->id]) }}" class="btn btn-primary">Modifier</a>
+                                                        <form action="{{ route('sousCategorie.destroy', ['id' => $sousCategorie->id]) }}" method="POST" style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -107,6 +118,8 @@
 
         <!-- App js -->
         <script src="{{ asset('js/app.js') }}"></script>
-    </body>
+    </div>
+
+</body>
 
 </html>

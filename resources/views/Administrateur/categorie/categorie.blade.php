@@ -14,8 +14,8 @@
 </head>
 <body data-sidebar="dark">
     <div id="layout-wrapper">
-        @include('Administrateur/layout/navbar')
-        @include('Administrateur/layout/sidebar')
+        @include('Administrateur.layout.navbar')
+        @include('Administrateur.layout.sidebar')
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
@@ -31,12 +31,24 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title mb-4">Ajouter Nouveau Categorie</h4>
-                                    <form action="{{ route('categorie.store') }}" method="POST">
+                                    <form action="{{ route('categorie.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row mb-4">
                                             <label for="nom" class="col-form-label col-lg-2">Nom de Categorie</label>
                                             <div class="col-lg-10">
                                                 <input id="nom" name="nom" type="text" class="form-control" placeholder="Entrer le nom">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label for="description" class="col-form-label col-lg-2">Description</label>
+                                            <div class="col-lg-10">
+                                                <textarea id="description" name="description" class="form-control" rows="4" placeholder="Entrer la description"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label for="photo" class="col-form-label col-lg-2">Photo</label>
+                                            <div class="col-lg-10">
+                                                <input id="photo" name="photo" type="file" class="form-control">
                                             </div>
                                         </div>
                                         <div class="row justify-content-end">
@@ -51,7 +63,7 @@
                     </div>
                 </div> 
             </div>
-            @include('Administrateur/layout/footer')
+            @include('Administrateur.layout.footer')
         </div>
     </div>
     <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
