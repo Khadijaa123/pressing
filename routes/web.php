@@ -94,9 +94,10 @@ Route::get('/listeService', [ServiceController::class, 'getService'])->name('lis
 Route::get('/service', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/service/create', [ServiceController::class, 'create'])->name('servicescreate');
 Route::post('/service', [ServiceController::class, 'store'])->name('services.store');
+
+Route::delete('/service/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 Route::get('/service/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
 Route::put('/service/{id}', [ServiceController::class, 'update'])->name('services.update');
-Route::delete('/service/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 
 
 /////////////////////////////////////////////////

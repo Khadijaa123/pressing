@@ -55,28 +55,39 @@ class ServiceController extends Controller
    
     public function edit($id)
     {
-        $service = Service::find($id);
+        $service = Service::findOrFail($id);
         $sousCategories = SousCategorie::all();
-        return view('/Administrateur/service/modifierService', compact('service', 'sousCategories'));
+        return view('Administrateur/service/modifierService', compact('service', 'sousCategories'));
     }
 
     public function update(Request $request, $id)
-        {
+    {
         // Validate the request data
         $validated = $request->validate([
             'prix' => 'required|numeric',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string|max:255',
             'id_sous_categories' => 'required|integer|exists:sous_categories,id',
         ]);
-
+    
         $service = Service::findOrFail($id);
-        $service->update($validated);
-
+    
+        // Mettre à jour les champs du service
+        $service->prix = $validated['prix'];
+        $service->description = $validated['description'];
+        $service->id_sous_categories = $validated['id_sous_categories'];
+    
+        // Vérifier s'il y a une nouvelle image à mettre à jour
+        if ($request->hasFile('photo')) {
+            $imageName = time().'.'.$request->photo->extension();
+            $request->photo->move(public_path('images/services'), $imageName);
+            $service->photo = $imageName;
+        }
+    
+        $service->save();
+    
         return redirect()->route('listeService')->with('success', 'Service modifié avec succès!');
     }
-
-
     public function destroy($id)
     {
         $service = Service::findOrFail($id);
