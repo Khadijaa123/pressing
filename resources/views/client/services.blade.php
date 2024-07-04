@@ -83,29 +83,27 @@
                 <div class="col-sm-12 col-md-12">
                     <div class="page-title">
                         <h2 class="lead">OUR SERVICES</h2>
-                        <p class="sublead">akthar cat .</p>
+                        <p class="sublead">akthar dfdfdfcat .</p>
                     </div>
                 </div>
             </div>
             
             <div class="row">
                 @foreach($data as $category)
-                <div class="services-item-full">
+                <div class="desc-wrap">
                     <div class="col-xs-12 col-md-6">
                         <div class="about-img">
-                            <img src="images/services-img-1.jpg" alt="" class="img-responsive" />
+                            <img src="{{ asset('images/services/' . $category->photo) }}" class="img-responsive" alt="{{ $category->nom }}" width="400" height="400">
+
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6">
                         <div class="desc-wrap"><a href="{{ route('listeCategorie11', ['id' => $category->id]) }}">
                             <h4 class="title-page">{{ $category->nom }}</a></h4>
-                            <p>{{ $category->description }}</p>
+                            
                             <ul class="service-list">
-                                <li><i class="fa fa-check-circle"></i> Ready for all devices.</li>
-                                <li><i class="fa fa-check-circle"></i> Made with Adobe Muse.</li>
-                                <li><i class="fa fa-check-circle"></i> No Coding Required.</li>
-                                <li><i class="fa fa-check-circle"></i> Easy Customizable.</li>
-                                <li><i class="fa fa-check-circle"></i> Affordable Price.</li>
+                                <p>{{ $category->description }}</p>
+                               
                             </ul>
                         </div>
                     </div>

@@ -5,7 +5,7 @@
 @section('content')
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-<head>
+  <head>
     <!-- Basic Page Needs -->
     <meta charset="utf-8">
     <!--[if IE]><meta http-equiv="x-ua-compatible" content="IE=9" /><![endif]-->
@@ -15,21 +15,34 @@
     <meta name="keywords" content="laundry, multipage, business, clean, bootstrap">
     <meta name="author" content="rudhisasmito.com"> 
     
-    <!-- Favicons -->
+    <!-- ==============================================
+    Favicons
+    =============================================== -->
     <link rel="shortcut icon" href="images/favicon.ico">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
     
-    <!-- CSS -->
+    <!-- ==============================================
+    CSS
+    =============================================== -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
     
-    <!-- Google Fonts -->
+    
+    
+    <!-- ==============================================
+    Google Fonts
+    =============================================== -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,700,900' rel='stylesheet' type='text/css'>
     
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    
+    
     <script type="text/javascript" src="js/modernizr.min.js"></script>
+    
 </head>
 
 <body>
@@ -39,11 +52,13 @@
         <div class="loader"></div>
     </div>
     
+    
     <!-- NAVBAR SECTION -->
     @include('client.partials.header')
 
+ 
     <!-- BANNER -->
-    <div class="section subbanner" style="background:url('images/slide_page.jpg') no-repeat center center; background-size: cover">
+    <div class="section subbanner" style="background:url('images/slide_page.jpg') no-repeat center center;   -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -57,7 +72,9 @@
                 </div>
             </div>
         </div>
+        
     </div>
+    
     
     <!-- SERVICES SECTION -->
     <div id="services" class="section services">
@@ -65,7 +82,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="page-title">
-                        <h2 class="lead">OUR SERVICES</h2>
+                        <h2 class="lead">OUR SE</h2>
                         <p class="sublead">akthar cat.</p>
                     </div>
                 </div>
@@ -73,15 +90,17 @@
             
             <div class="row">
                 @foreach($data as $category)
-                <div class="services-item-full">
+                <div class="desc-wrap">
                     <div class="col-xs-12 col-md-6">
                         <div class="about-img">
-                            <img src="images/services-img-1.jpg" alt="" class="img-responsive" />
+                            <img src="{{ asset('images/services/' . $category->photo) }}" class="img-responsive" alt="{{ $category->nom }}" width="200" height="200">
+
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6">
                         <div class="desc-wrap">
                             <h4 class="title-page"><a >{{ $category->nom }}</a></h4>
+                            <p>{{ $category->prix }} DT</p>
                             <p>{{ $category->description }}</p>
                             <!-- Add a label and button for each service -->
                             <form action="{{ route('panier.add') }}" method="POST">

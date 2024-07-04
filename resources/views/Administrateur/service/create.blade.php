@@ -51,6 +51,12 @@
                                     <form action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row mb-4">
+                                            <label for="nom" class="col-form-label col-lg-2">Nom de service</label>
+                                            <div class="col-lg-10">
+                                                <input id="nom" name="nom" type="text" class="form-control" placeholder="Entrer le nom">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
                                             <label for="prix" class="col-form-label col-lg-2">Prix</label>
                                             <div class="col-lg-10">
                                                 <input id="prix" name="prix" type="text" class="form-control"

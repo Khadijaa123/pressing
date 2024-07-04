@@ -71,11 +71,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/">Homepage</a></li>
-                            <li><a href="index2.html">Homepage Sliders</a></li>
-                        </ul>
+                        <a href="/">Home</a>
+                       
                     </li>
                     <li><a href="{{ route('panier.index') }}">Panier</a></li>
                     <li><a href="{{ route('listeCategorie1') }}">SERVICES</a></li>

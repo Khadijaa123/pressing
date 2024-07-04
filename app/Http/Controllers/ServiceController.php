@@ -32,6 +32,7 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'nom' => 'required|string|max:255',
             'prix' => 'required',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
             'description' => 'required',
@@ -44,6 +45,7 @@ class ServiceController extends Controller
 
         // Création du service dans la base de données
         $service = new service();
+        $service->nom = $request->nom;
         $service->prix = $request->prix;
         $service->photo = $imageName; // Stocker le nom de l'image dans la base de données
         $service->description = $request->description;
@@ -64,6 +66,7 @@ class ServiceController extends Controller
     {
         // Validate the request data
         $validated = $request->validate([
+            'nom' => 'required|string|max:255',
             'prix' => 'required|numeric',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string|max:255',
@@ -74,6 +77,7 @@ class ServiceController extends Controller
     
         // Mettre à jour les champs du service
         $service->prix = $validated['prix'];
+        $service->nom  = $validated['nom'];
         $service->description = $validated['description'];
         $service->id_sous_categories = $validated['id_sous_categories'];
     

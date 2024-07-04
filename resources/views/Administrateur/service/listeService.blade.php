@@ -53,6 +53,8 @@
                                     <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
                                         <thead>
                                             <tr>
+                                                <th>Nom</th>
+                                                
                                                 <th>Prix</th>
                                                 <th>Photo</th>
                                                 <th>Description</th>
@@ -62,7 +64,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach($data as $service)
-                                            <tr>
+                                            <tr><td style="vertical-align: middle;">{{ $service->nom }}</td>
                                                 <td>{{ $service->prix }}</td>
                                                 <td>
                                                     <img src="{{ asset('images/services/' . $service->photo) }}"

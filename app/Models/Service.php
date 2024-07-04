@@ -7,7 +7,7 @@ class Service extends Model
 {   protected $table = 'services';
     public $timestamps = false;
 
-    protected $fillable = ['prix', 'photo', 'description', 'id_sous_categories'];
+    protected $fillable = ['prix', 'photo', 'description', 'id_sous_categories','nom'];
 
     public function sousCategorie()
     {

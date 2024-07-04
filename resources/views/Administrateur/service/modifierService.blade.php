@@ -53,6 +53,13 @@
                                     <form action="{{ route('services.update', ['id' => $service->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
+    <div class="row mb-4">
+        <label for="nom" class="col-form-label col-lg-2">Nom de service</label>
+        <div class="col-lg-10">
+            <input id="nom" name="nom" type="text" class="form-control"
+                value="{{ $service->nom }}">
+        </div>
+    </div>
 
                                         <div class="row mb-4">
                                             <label for="prix" class="col-form-label col-lg-2">Prix</label>
