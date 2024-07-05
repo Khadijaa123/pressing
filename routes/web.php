@@ -162,9 +162,11 @@ Route::put('/administrateur/commandes/update', [CommandeController::class, 'upda
 Route::delete('/administrateur/commandes/{id}', [CommandeController::class, 'deleteCommande'])->name('commandes.delete');
 
 
+
 Route::get('/historique', [CommandeController::class, 'getHistorique'])->name('historique');
 
 
 use App\Http\Controllers\lignepanierController;
 Route::post('/panier/add', [lignepanierController::class, 'add'])->name('panier.add');
 Route::get('/panier', [lignepanierController::class, 'index'])->name('panier.index');
+Route::post('/commande/valider', [lignepanierController::class, 'valider'])->name('commande.valider');

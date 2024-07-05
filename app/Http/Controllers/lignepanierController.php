@@ -5,33 +5,77 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ligne_panier;
 use App\Models\Service;
+use App\Models\panier;
+use Carbon\Carbon;
+use App\Models\commande;
 
 class lignepanierController extends Controller
-{
+{public function valider(Request $request)
+    {  $categories = Service::all();
+        // Check if cart exists in the session
+        $panier = panier::create([
+            'date_panier' => Carbon::now()->toDateString(),
+            'heure_panier' => Carbon::now()->toTimeString()
+        ]);
+        
+        if (session()->has('cart')) {
+            $cart = session()->get('cart');
+            $totalPrice = 0;
+            foreach ($cart as $item) {
+                foreach($categories as $itemm){
+                    if ($item['service_id'] == $itemm['id'])
+                $totalPrice += $item['quantity'] * $itemm['prix']; // Assuming $item['service'] contains the related Service model
+            }}
+         
+            // Assuming you have a way to identify the user, e.g., Auth::id() or another method
+            // Modify according to your authentication method
+
+            // Iterate over the cart items and create ligne_panier entries
+            foreach ($cart as $item) {
+                ligne_panier::create([
+                    'quantite' => $item['quantity'],
+                    'id_service' => $item['service_id'],
+                    'id_panier' => $panier->id // Assuming 'id_panier' refers to a user ID or an order ID
+                ]);
+            }   commande::create([
+                'date' => Carbon::now()->toDateString(),
+                'heure' => Carbon::now()->toTimeString(),
+                'prix'=>$totalPrice ,
+                // Add other fields as needed
+                'id_panier' => $panier->id  // Assuming 'id_panier' is the foreign key referencing Panier in Commande
+            ]);
+            
+            // Clear the cart from the session
+            session()->forget('cart');
+            
+            return redirect()->back()->with('success', 'Commande validée avec succès!');
+        }
+        
+        return redirect()->back()->with('error', 'Votre panier est vide.');
+    }
     public function add(Request $request)
     {
-        $request->validate([
-            'service_id' => 'required|exists:services,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
+        $service = [
+            'service_id' => $request->input('service_id'),
+            'quantity' => $request->input('quantity'),
+            'name' => $request->input('name'),
+            'price' => $request->input('price'),
+         
+        ];
 
-      
-        $quantity = $request->input('quantity');
-        
-        // Logic to add the service to the cart
-        $service = Service::find($request->input('service_id'));
+        // Store the service in the session
+        session()->put('cart.service_' . $service['service_id'], $service);
 
-        // Assuming you have a Panier model and a way to identify the user/session
-        $panier = new ligne_panier();
-        $panier->id_service= $service->id;
-        $panier->quantite = $quantity;
-        // Add other necessary fields such as user_id, etc.
-        $panier->save();
-
-        return redirect()->back()->with('success', 'Service ajouté au panier avec succès!');
+        return redirect()->back()->with('success', 'Service added to cart!');
     }
-    public function index(){
-        $client = ligne_panier::all();
-        return view('client/panier',['data'=>$client]);
+
+    public function index()
+    { $categories = Service::all();
+        // Retrieve the cart from the session
+        $cart = session()->get('cart', []);
+
+        return view('client/panier', compact('cart','categories'));
     }
+
+
 }
