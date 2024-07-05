@@ -55,43 +55,27 @@
                                     <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
                                         <thead>
                                             <tr>
-                                                <th>Date</th>
-                                                <th>Heure</th>
+                                                <th>Nom</th>
+                                                <th>Quantité</th>
                                                 <th>Prix</th>
-                                                <th>Date de Ramassage</th>
-                                                <th>Numéro de téléphone</th>
-                                                <th>Type</th>
-                                                <th>Remarque</th>
-                                                <th>ID Client</th>
-                                                <th>Transporteur</th>
-                                                <th>Panier</th>
-                                               
+                                                <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($data as $item)
-        @if ($item->type != 'OK')
-            <tr>
-                <td>{{ $item->date }}</td>
-                <td>{{ $item->heure }}</td>
-                <td>{{ $item->prix }}</td>
-                <td>{{ $item->date_ramassage }}</td>
-                <td>{{ $item->num_tel }}</td>
-                <td>{{ $item->type }}</td>
-                <td>{{ $item->remarque }}</td>
-                <td>{{ $item->id_client }}</td>
-                <td>{{ $item->id_transporteur }}</td>
-                <td>
-                    <a href="{{ route('detail_commande', ['id_panier' => $item->id_panier]) }}" class="btn btn-info btn-sm">
-                        Voir Détails
-                    </a>
-                
-            </tr>
-        @endif
-    @endforeach
+                                            @foreach ($data as $item)
+                                            @foreach ($dataa as $itemm)
+                                            @if ($item['id_service'] == $itemm['id'])
+                                            <tr>
+                                                <td>{{ $itemm['nom'] }}</td>
+                                                <td>{{ $item['quantite'] }}</td>
+                                                <td>{{ $itemm['prix'] }} DT</td>
+                                                <td>{{ $item['quantite'] * $itemm['prix'] }} DT</td>
+                                            </tr>
+                                            @endif
+                                            @endforeach
+                                            @endforeach
                                         </tbody>
                                     </table>
-
                                 </div>
                             </div>
                         </div>

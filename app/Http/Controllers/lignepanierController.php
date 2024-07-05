@@ -76,6 +76,14 @@ class lignepanierController extends Controller
 
         return view('client/panier', compact('cart','categories'));
     }
+    public function getpanier($id_panier)
+    {
+        $categories = Service::all();
+        // Fetch related sub-categories if needed
+        $sousCategories =ligne_panier::where('id_panier', $id_panier)->get();
 
+        // Pass data to the view
+        return view('Administrateur/panier/panier', ['data' => $sousCategories,'dataa'=>$categories]);
+    }
 
 }

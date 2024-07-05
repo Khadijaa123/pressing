@@ -170,3 +170,4 @@ use App\Http\Controllers\lignepanierController;
 Route::post('/panier/add', [lignepanierController::class, 'add'])->name('panier.add');
 Route::get('/panier', [lignepanierController::class, 'index'])->name('panier.index');
 Route::post('/commande/valider', [lignepanierController::class, 'valider'])->name('commande.valider');
+Route::get('/detail-commande/{id_panier}', [lignepanierController::class, 'getpanier'])->name('detail_commande');
