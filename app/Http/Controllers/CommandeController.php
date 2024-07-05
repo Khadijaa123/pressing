@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\commande;
-
+use App\Models\Transporteur;
+use App\Models\Personnels;
+use Carbon\Carbon;
 class CommandeController extends Controller
+
 {
     public function store(Request $request)
     {
@@ -38,8 +41,16 @@ class CommandeController extends Controller
     public function getCommandes()
     {
         $commandes = Commande::all();
-        return view('Administrateur/commande/listeCommandes', ['data' => $commandes]);
+        $transporteurs = Transporteur::all();
+        $personnelsIds = Personnels::all();
+    
+        return view('Administrateur/commande/listeCommandes', [
+            'data' => $commandes,
+            'transporteurs' => $transporteurs,
+            'pers' => $personnelsIds
+        ]);
     }
+    
     public function getHistorique()
     {
         $commandes = Commande::all();
@@ -94,4 +105,31 @@ class CommandeController extends Controller
         $commande = Commande::find($id);
         return view('Administrateur.commande.modifierCommande', ['data' => $commande]);
     }
+    public function assignTransporteur(Request $request)
+    {
+       
+     
+        $commande = commande::find($request->commande_id);
+        $commande->id_transporteur = $request->id_transporteur;
+        $commande->type='2'; // Use the correct field name
+        $commande->save();
+    
+        return redirect()->back()->with('success', 'Transporteur assigné avec succès!');
+    }
+    public function assignType(Request $request)
+    {
+        $request->validate([
+            'commande_id' => 'required|exists:commande,id',
+            'types' => 'required|array', // Ensure it's an array
+            'types.*' => 'in:1,2,3,4', // Validate each type value
+        ]);
+    
+        $commande = Commande::find($request->commande_id);
+        $commande->type = implode(',', $request->types);
+        $commande->date_ramassage= Carbon::now()->toDateString(); // Save types as comma-separated string or as needed
+        $commande->save();
+    
+        return redirect()->back()->with('success', 'Types assignés avec succès!');
+    }
+
 }

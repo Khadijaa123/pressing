@@ -70,7 +70,7 @@
                                         </thead>
                                         <tbody>
     @foreach ($data as $item)
-        @if ($item->type == 'OK')
+        @if ($item->type == '4')
             <tr>
                 <td>{{ $item->date }}</td>
                 <td>{{ $item->heure }}</td>

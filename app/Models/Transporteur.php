@@ -15,4 +15,8 @@ class Transporteur extends Model
 
     // Les champs pouvant être remplis massivement
     protected $fillable = ["id", "id_personel"];
+    public function personnel()
+    {
+        return $this->belongsTo(Personnels::class, 'id_personel');
+    }
 }

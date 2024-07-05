@@ -160,7 +160,8 @@ Route::get('/administrateur/commandesssssssss', [CommandeController::class, 'get
 Route::get('/administrateur/commandes/{id}', [CommandeController::class, 'getCommandeById'])->name('commandes.edit');
 Route::put('/administrateur/commandes/update', [CommandeController::class, 'updateCommande'])->name('commandes.update');
 Route::delete('/administrateur/commandes/{id}', [CommandeController::class, 'deleteCommande'])->name('commandes.delete');
-
+Route::post('/assign-transporteur', [CommandeController::class, 'assignTransporteur'])->name('assign_transporteur');
+Route::post('/assign-trans', [CommandeController::class, 'assignType'])->name('assign_type');
 
 
 Route::get('/historique', [CommandeController::class, 'getHistorique'])->name('historique');

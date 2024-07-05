@@ -35,12 +35,14 @@ class lignepanierController extends Controller
                 ligne_panier::create([
                     'quantite' => $item['quantity'],
                     'id_service' => $item['service_id'],
-                    'id_panier' => $panier->id // Assuming 'id_panier' refers to a user ID or an order ID
+                    'id_panier' => $panier->id 
+                    // Assuming 'id_panier' refers to a user ID or an order ID
                 ]);
             }   commande::create([
                 'date' => Carbon::now()->toDateString(),
                 'heure' => Carbon::now()->toTimeString(),
                 'prix'=>$totalPrice ,
+                'type'=>'1',
                 // Add other fields as needed
                 'id_panier' => $panier->id  // Assuming 'id_panier' is the foreign key referencing Panier in Commande
             ]);
@@ -60,6 +62,7 @@ class lignepanierController extends Controller
             'quantity' => $request->input('quantity'),
             'name' => $request->input('name'),
             'price' => $request->input('price'),
+
          
         ];
 
@@ -85,5 +88,6 @@ class lignepanierController extends Controller
         // Pass data to the view
         return view('Administrateur/panier/panier', ['data' => $sousCategories,'dataa'=>$categories]);
     }
-
+   
+    
 }

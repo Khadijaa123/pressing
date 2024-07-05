@@ -15,4 +15,8 @@ class Personnels extends Model
 
     // Les champs pouvant être remplis massivement
     protected $fillable = ["id", "nom", "prenom", "adresse", "num_tel", "email", "poste", "date_obtention"];
+    public function transporteurs()
+    {
+        return $this->hasMany(Transporteur::class, 'id_personel');
+    }
 }

@@ -65,30 +65,45 @@
                                                 <th>ID Client</th>
                                                 <th>Transporteur</th>
                                                 <th>Panier</th>
-                                               
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($data as $item)
-        @if ($item->type != 'OK')
-            <tr>
-                <td>{{ $item->date }}</td>
-                <td>{{ $item->heure }}</td>
-                <td>{{ $item->prix }}</td>
-                <td>{{ $item->date_ramassage }}</td>
-                <td>{{ $item->num_tel }}</td>
-                <td>{{ $item->type }}</td>
-                <td>{{ $item->remarque }}</td>
-                <td>{{ $item->id_client }}</td>
-                <td>{{ $item->id_transporteur }}</td>
-                <td>
-                    <a href="{{ route('detail_commande', ['id_panier' => $item->id_panier]) }}" class="btn btn-info btn-sm">
-                        Voir Détails
-                    </a>
-                
-            </tr>
-        @endif
-    @endforeach
+                                            @foreach ($data as $item)
+                                                @if ($item->type != '4')
+                                                    <tr>
+                                                        <td>{{ $item->date }}</td>
+                                                        <td>{{ $item->heure }}</td>
+                                                        <td>{{ $item->prix }}</td>
+                                                        <td>{{ $item->date_ramassage }}</td>
+                                                        <td>{{ $item->num_tel }}</td>
+                                                        <td>{{ $item->type }}
+                                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#chooseTypeModal" data-id="{{ $item->id }}">
+                                                            Choisir Type
+                                                        </button></td>
+                                                        <td>{{ $item->remarque }}</td>
+                                                        <td>{{ $item->id_client }}</td>
+                                                        <td>@foreach($transporteurs as $transporteur)
+                                                            @foreach($pers as $per)
+                                                                @if ($per->id == $transporteur->id_personnels &&$item->id_transporteur ==$transporteur->id)
+                                                                    
+                                                                        {{ $per->nom }}
+                                                                        @endif
+                                                                        @endforeach
+                                                                        @endforeach
+                                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#chooseTransporteurModal" data-id="{{ $item->id }}">
+                                                                Choisir Transporteur
+                                                            </button>
+                                                        </td>
+                                                       
+                                                       
+                                                        <td>
+                                                            <a href="{{ route('detail_commande', ['id_panier' => $item->id_panier]) }}" class="btn btn-info btn-sm">
+                                                                Voir Détails
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
                                         </tbody>
                                     </table>
 
@@ -108,10 +123,112 @@
 
     </div> <!-- layout-wrapper -->
 
+    <!-- Modal -->
+    <div class="modal fade" id="chooseTransporteurModal" tabindex="-1" role="dialog" aria-labelledby="chooseTransporteurModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chooseTransporteurModalLabel">Choisir un Transporteur</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('assign_transporteur') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="commande_id" id="commande_id">
+                        <div class="form-group">
+                            <label for="transporteur">Transporteur</label>
+                            <select class="form-control" id="id_transporteur" name="id_transporteur" required>
+                                @foreach($transporteurs as $transporteur)
+                                    @foreach($pers as $per)
+                                        @if ($per->id == $transporteur->id_personnels)
+                                            <option value="{{ $transporteur->id }}">
+                                                {{ $per->nom }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </select>
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Assigner</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for choosing types -->
+<div class="modal fade" id="chooseTypeModal" tabindex="-1" role="dialog" aria-labelledby="chooseTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chooseTypeModalLabel">Choisir un Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('assign_type') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="commande_id" id="commande_id">
+                    <div class="form-group">
+                        <label for="type">Type</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="type1" name="types[]" value="1">
+                            <label class="form-check-label" for="type1">Type 1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="type2" name="types[]" value="2">
+                            <label class="form-check-label" for="type2">Type 2</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="type3" name="types[]" value="3">
+                            <label class="form-check-label" for="type3">Type 3</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="type4" name="types[]" value="4">
+                            <label class="form-check-label" for="type4">Type 4</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Assigner Type</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
     <!-- Bootstrap & Core JS -->
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <!-- Custom Script for Modal -->
+    <script>
+        $('#chooseTransporteurModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var commandeId = button.data('id');
+            var modal = $(this);
+            modal.find('.modal-body #commande_id').val(commandeId);
+        });
+    </script>
+    <script>
+        $('#chooseTypeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var commandeId = button.data('id');
+            var modal = $(this);
+            modal.find('.modal-body #commande_id').val(commandeId);
+        });
+    </script>
+    
 </body>
 
 </html>
