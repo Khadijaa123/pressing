@@ -44,13 +44,17 @@ Route::post(
 Route::get('/client', [ClientController::class, 'index'])->name('listeClient');
 Route::post('/client', [ClientController::class, 'store'])->name('client.store');
 Route::post('/client1', [ClientController::class, 'store1'])->name('client.store1');
-Route::post('/clientU', [ClientController::class, 'updateClient'])->name('client.update');
+
 Route::get('/listeClient', [ClientController::class, 'getClient'])->name('listeClient');
 Route::get('/modifierClient/{id}', [ClientController::class, 'getClientId'])->name('modifierClient');
 Route::get('/supprimerClient/{id}', [ClientController::class, 'deleteClient'])->name('supprimerClient');
 Route::get('/ajouterClient', function () {
     return view('Administrateur/client/client');
 })->name('ajouterClient');
+Route::get('/client/faq', [ClientController::class, 'profile'])->name('client.profile');
+Route::put('/client/{id}', [ClientController::class, 'update'])->name('client.update');
+
+
 
 // personnel
 Route::get('/personnel', [PersonnelsController::class, 'index'])->name('listePersonnel');
@@ -163,6 +167,8 @@ Route::delete('/administrateur/commandes/{id}', [CommandeController::class, 'del
 Route::post('/assign-transporteur', [CommandeController::class, 'assignTransporteur'])->name('assign_transporteur');
 Route::post('/assign-trans', [CommandeController::class, 'assignType'])->name('assign_type');
 
+
+Route::get('/historique1', [CommandeController::class, 'getHistorique1'])->name('historique1');
 
 Route::get('/historique', [CommandeController::class, 'getHistorique'])->name('historique');
 

@@ -76,9 +76,9 @@
                     </li>
                     <li><a href="{{ route('panier.index') }}">Panier</a></li>
                     <li><a href="{{ route('listeCategorie1') }}">SERVICES</a></li>
-                    <li><a href="pricing">PRICING</a></li>
-                    <li><a href="faq">FAQ</a></li>
-                    <li><a href="blog">BLOG</a></li>
+                    <li><a href="/pricing">PRICING</a></li>
+                    <li><a href="{{ route('client.profile') }}">Profile</a></li>
+                    <li><a href="{{ route('historique1') }}">Historique</a></li>
                     <li><a href="{{ route('login') }}"> login</a></li>
                 </ul>
             </div>

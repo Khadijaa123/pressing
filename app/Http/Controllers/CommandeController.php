@@ -7,6 +7,12 @@ use App\Models\commande;
 use App\Models\Transporteur;
 use App\Models\Personnels;
 use Carbon\Carbon;
+
+use App\Models\ligne_panier;
+use App\Models\Service;
+use App\Models\panier;
+
+
 class CommandeController extends Controller
 
 {
@@ -55,6 +61,14 @@ class CommandeController extends Controller
     {
         $commandes = Commande::all();
         return view('Administrateur/commande/historique', ['data' => $commandes]);
+    }
+    public function getHistorique1()
+    {      $categories = panier::all();
+        // Fetch related sub-categories if needed
+        $sousCategories =ligne_panier::all();
+        $commandes = Commande::all();
+        $serv= Service::all();
+        return view('client/historique', ['data' => $commandes,'ligne_panier' => $sousCategories,'panier'=>$categories,'service'=>$serv]);
     }
 
     public function deleteCommande($id)
@@ -126,7 +140,9 @@ class CommandeController extends Controller
     
         $commande = Commande::find($request->commande_id);
         $commande->type = implode(',', $request->types);
-        $commande->date_ramassage= Carbon::now()->toDateString(); // Save types as comma-separated string or as needed
+        if ($commande->type == 4) {
+        $commande->date_ramassage= Carbon::now()->toDateString(); 
+        }// Save types as comma-separated string or as needed
         $commande->save();
     
         return redirect()->back()->with('success', 'Types assignés avec succès!');

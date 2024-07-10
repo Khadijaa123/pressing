@@ -38,15 +38,16 @@ class lignepanierController extends Controller
                     'id_panier' => $panier->id 
                     // Assuming 'id_panier' refers to a user ID or an order ID
                 ]);
-            }   commande::create([
+            }   $commande = Commande::create([
                 'date' => Carbon::now()->toDateString(),
                 'heure' => Carbon::now()->toTimeString(),
-                'prix'=>$totalPrice ,
-                'type'=>'1',
-                // Add other fields as needed
-                'id_panier' => $panier->id  // Assuming 'id_panier' is the foreign key referencing Panier in Commande
+                'prix' => $totalPrice,
+                'type' => '1',
+                'id_panier' => $panier->id,
+                'remarque' => $request->input('remarque'),
+                'num_tel' => $request->input('num_tel')
             ]);
-            
+        
             // Clear the cart from the session
             session()->forget('cart');
             
@@ -74,7 +75,7 @@ class lignepanierController extends Controller
 
     public function index()
     { $categories = Service::all();
-        // Retrieve the cart from the session
+        // Retrieve the cart from the session 
         $cart = session()->get('cart', []);
 
         return view('client/panier', compact('cart','categories'));

@@ -63,6 +63,46 @@ body {
 ol, ul {
 	list-style: none;
 }
+
+        .profile-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .profile-section h4 {
+            margin-bottom: 20px;
+        }
+        .form-label {
+			text-align: center;
+			width: 100%;
+		  }
+		   .form-control {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+        .breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin-bottom: 0;
+        }
+        .breadcrumb li {
+            display: inline;
+            font-size: 14px;
+        }
+        .breadcrumb li a {
+            color: #6c757d;
+        }
+        .breadcrumb li.active {
+            color: #495057;
+        }
+        .subbanner {
+            background-size: cover;
+            padding: 60px 0;
+            text-align: center;
+            color: #fff;
+        }
+  
 blockquote, q {
 	quotes: none;
 }

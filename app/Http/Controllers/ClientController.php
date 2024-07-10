@@ -7,7 +7,12 @@ use App\Models\Client;
 use Illuminate\Support\Facades\Hash;
 
 class ClientController
-{
+{public function profile()
+    {
+        $client = Client::find(19); // Fetch the client with ID 1
+        return view('client/faq', compact('client'));
+    }
+    
     //
     public function store(Request $request)
     {
@@ -71,17 +76,36 @@ class ClientController
         $client->delete();
          return redirect()->route('listeClient')->with('message', 'Client a ete bien supprimé');
     }
-
-    public function updateClient(Request $request){
-        $client = Client::find($request->id);
-        $client->nom  = $request->nom;
-        $client->prenom = $request->prenom;
-        $client->email = $request->adresseE;
-        $client->num_tel = $request->telephone;
-        $client->ville = $request->ville;
-        // $client->passwd = $request->password  ;
-        $client->update();
-        return redirect()->route('listeClient')->with('message', 'Client a ete bien modifié');
+    public function update(Request $request, $id)
+    {
+        // Validation des données
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'num_tel' => 'required|string|max:20',
+            'ville' => 'required|string|max:255',
+        ]);
+    
+        // Récupérer le client
+        $client = Client::find($id);
+    
+        // Vérifier si le client existe
+        if (!$client) {
+            return redirect()->back()->with('error', 'Client non trouvé');
+        }
+    
+        // Mettre à jour les informations du client
+        $client->update([
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'email' => $request->email,
+            'num_tel' => $request->num_tel,
+            'ville' => $request->ville,
+        ]);
+    
+        // Rediriger avec un message de succès
+        return redirect()->route('client.profile')->with('success', 'Informations du client mises à jour avec succès');
     }
 
     public function index(Request $request)
