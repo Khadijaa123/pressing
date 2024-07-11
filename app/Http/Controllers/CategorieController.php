@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Categorie;
 
@@ -40,12 +40,28 @@ class CategorieController extends Controller
         // Return the view to create a new category
         return view('Administrateur/categorie/Categorie');
     }
-
-    public function getCategories()
+    public function getCategories(Request $request)
     {
-        $categories = Categorie::all();
-        return view('Administrateur/categorie/listeCategorie', ['data' => $categories]);
+        $searchTerm = $request->input('search');
+    
+        if ($searchTerm) {
+            $categories = Categorie::where('nom', 'LIKE', "%{$searchTerm}%")
+                            
+                            ->get();
+        } else {
+            $categories = Categorie::all();
+        }
+    
+        if ($request->ajax()) {
+            return response()->json(['data' => $categories]);
+        }
+    
+        return view('Administrateur/categorie/listeCategorie', ['data' => $categories, 'searchTerm' => $searchTerm]);
     }
+
+
+
+
     public function getCategories1()
     {
         $categories = Categorie::all();

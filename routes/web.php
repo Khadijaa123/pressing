@@ -91,6 +91,7 @@ Route::post('/categories', [CategorieController::class, 'store'])->name('categor
 Route::get('/modifierCategorie/{id}', [CategorieController::class, 'getCategorieById'])->name('modifierCategorie');
 Route::get('/categories/{id}', [CategorieController::class, 'destroy'])->name('categories.destroy');
 Route::put('/categorieU/{id}', [CategorieController::class, 'update'])->name('categorie.update');
+Route::get('/categories', [CategorieController::class, 'getCategories'])->name('getCategories');
 
 
 

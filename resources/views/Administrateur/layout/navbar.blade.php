@@ -27,13 +27,7 @@
             </button>
 
             <!-- App Search-->
-            <form class="app-search d-none d-lg-block">
-                <div class="position-relative">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <span class="bx bx-search-alt"></span>
-                </div>
-            </form>
-
+ 
 
             <div class="dropdown dropdown-mega d-none d-lg-block ms-2">
                 <div class="dropdown-menu dropdown-megamenu">

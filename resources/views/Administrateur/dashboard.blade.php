@@ -13,7 +13,7 @@
         <meta content="Themesbrand" name="author" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico')}}">
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- Bootstrap Css -->
         <link href="{{ asset('css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->

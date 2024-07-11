@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
                         <div class="top-sosmed pull-right">
-                            <a href="#" title=""><span class="fa fa-facebook"></span></a>
+                            <a href="https://www.facebook.com/PressingNeffatiMsbghtAlnfaty" title=""><span class="fa fa-facebook"></span></a>
                             <a href="#" title=""><span class="fa fa-twitter"></span></a>
                             <a href="#" title=""><span class="fa fa-instagram"></span></a>
                             <a href="#" title=""><span class="fa fa-pinterest"></span></a>

@@ -12,7 +12,7 @@ use App\Models\ligne_panier;
 use App\Models\Service;
 use App\Models\panier;
 
-
+use Illuminate\Support\Facades\DB;
 class CommandeController extends Controller
 
 {
@@ -49,18 +49,29 @@ class CommandeController extends Controller
         $commandes = Commande::all();
         $transporteurs = Transporteur::all();
         $personnelsIds = Personnels::all();
+        $mostOrderedService = $this->getMostOrderedService();
     
         return view('Administrateur/commande/listeCommandes', [
             'data' => $commandes,
             'transporteurs' => $transporteurs,
-            'pers' => $personnelsIds
+            'pers' => $personnelsIds,
+            'mostOrderedService'=> $mostOrderedService 
         ]);
     }
     
     public function getHistorique()
     {
         $commandes = Commande::all();
-        return view('Administrateur/commande/historique', ['data' => $commandes]);
+        $transporteurs = Transporteur::all();
+        $personnelsIds = Personnels::all();
+       
+    
+        return view('Administrateur/commande/historique', [
+            'data' => $commandes,
+            'transporteurs' => $transporteurs,
+            'pers' => $personnelsIds,
+            
+        ]);
     }
     public function getHistorique1()
     {      $categories = panier::all();
@@ -70,6 +81,18 @@ class CommandeController extends Controller
         $serv= Service::all();
         return view('client/historique', ['data' => $commandes,'ligne_panier' => $sousCategories,'panier'=>$categories,'service'=>$serv]);
     }
+    public function getMostOrderedService()
+    {
+        $mostOrderedService = DB::table('services')
+                                ->join('ligne_panier', 'services.id', '=', 'ligne_panier.id_service')
+                                ->select('services.nom', DB::raw('count(ligne_panier.id_service) as total_orders'))
+                                ->groupBy('services.nom')
+                                ->orderBy('total_orders', 'desc')
+                                ->get();
+    
+        return $mostOrderedService;
+    }
+
 
     public function deleteCommande($id)
     {

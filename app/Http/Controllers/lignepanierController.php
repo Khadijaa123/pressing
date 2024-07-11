@@ -77,8 +77,19 @@ class lignepanierController extends Controller
     { $categories = Service::all();
         // Retrieve the cart from the session 
         $cart = session()->get('cart', []);
+  // Assuming you are using sessions for the cart
+    // Get all categories
+    $totalSum = 0;
+    foreach ($cart as $item) {
+        foreach ($categories as $category) {
+            if ($item['service_id'] == $category['id']) {
+                $totalSum += $item['quantity'] * $category['prix'];
+            }
+        }
+    }
 
-        return view('client/panier', compact('cart','categories'));
+    return view('client.panier', compact('cart', 'categories', 'totalSum'));
+
     }
     public function getpanier($id_panier)
     {

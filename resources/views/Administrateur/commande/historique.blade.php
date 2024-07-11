@@ -81,7 +81,12 @@
                 <td>{{ $item->remarque }}</td>
                 <td>{{ $item->id_client }}</td>
                 <td>{{ $item->id_transporteur }}</td>
-                <td>{{ $item->id_panier }}</td>
+                <td>
+                    <a href="{{ route('detail_commande', ['id_panier' => $item->id_panier]) }}" class="btn btn-info btn-sm">
+                        Voir Détails
+                    </a>
+                </td>
+            </tr>
                 
             </tr>
         @endif

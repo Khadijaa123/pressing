@@ -77,7 +77,14 @@
                 @endforeach
                 @endforeach
             </div>
-
+   <!-- Total Sum -->
+   <div class="row">
+    <div class="col-md-12">
+        <div class="text-right">
+            <h3>Total Panier: {{ $totalSum }} DT</h3>
+        </div>
+    </div>
+</div>
             <!-- Form for additional information -->
             <div class="row">
                 <div class="col-md-12">
