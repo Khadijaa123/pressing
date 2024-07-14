@@ -13,6 +13,22 @@
     <link href="{{ asset('css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Define custom button colors -->
+    <style>
+        .btn-type-1 { background-color: #007bff; color: white; }
+        .btn-type-2 { background-color: #28a745; color: white; }
+        .btn-type-3 { background-color: #dc3545; color: white; }
+        .btn-type-4 { background-color: #ffc107; color: black; }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .table {
+            min-width: 1200px; /* Adjust as needed */
+        }
+    </style>
 </head>
 
 <body data-sidebar="dark">
@@ -61,58 +77,66 @@
 
                                     <h4 class="card-title">Liste des commandes enregistrées</h4>
                                     <br />
-                                    <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Heure</th>
-                                                <th>Prix</th>
-                                                <th>Date de Ramassage</th>
-                                                <th>Numéro de téléphone</th>
-                                                <th>Type</th>
-                                                <th>Remarque</th>
-                                                <th>ID Client</th>
-                                                <th>Transporteur</th>
-                                                <th>Panier</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($data as $item)
-                                                @if ($item->type != '4')
-                                                    <tr>
-                                                        <td>{{ $item->date }}</td>
-                                                        <td>{{ $item->heure }}</td>
-                                                        <td>{{ $item->prix }}</td>
-                                                        <td>{{ $item->date_ramassage }}</td>
-                                                        <td>{{ $item->num_tel }}</td>
-                                                        <td>{{ $item->type }}
-                                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#chooseTypeModal" data-id="{{ $item->id }}">
-                                                            Choisir Type
-                                                        </button></td>
-                                                        <td>{{ $item->remarque }}</td>
-                                                        <td>{{ $item->id_client }}</td>
-                                                        <td>@foreach($transporteurs as $transporteur)
-                                                            @foreach($pers as $per)
-                                                                @if ($per->id == $transporteur->id_personnels &&$item->id_transporteur ==$transporteur->id)
-                                                                    
-                                                                        {{ $per->nom }}
+                                    <div class="table-container">
+                                        <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Heure</th>
+                                                    <th>Prix</th>
+                                                    <th>Date de Ramassage</th>
+                                                    <th>Numéro de téléphone</th>
+                                                    <th>Type</th>
+                                                    <th>Remarque</th>
+                                                    <th>Adresse</th>
+                                                    <th>Adresse exacte </th>
+                                                    <th>ID Client</th>
+                                                    <th>Transporteur</th>
+                                                    <th>Panier</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($data as $item)
+                                                    @if ($item->type != '4')
+                                                        <tr>
+                                                            <td>{{ $item->date }}</td>
+                                                            <td>{{ $item->heure }}</td>
+                                                            <td>{{ $item->prix }}</td>
+                                                            <td>{{ $item->date_ramassage }}</td>
+                                                            <td>{{ $item->num_tel }}</td>
+                                                            <td>
+                                                                {{ $item->type }}
+                                                                <button type="button" class="btn {{ 'btn-type-' . $item->type }} btn-sm" data-toggle="modal" data-target="#chooseTypeModal" data-id="{{ $item->id }}">
+                                                                    Choisir Type
+                                                                </button>
+                                                            </td>
+                                                            <td>{{ $item->remarque }}</td>
+                                                            <td>{{ $item->adresse_livraison }}</td>
+                                                        <td>{{ $item->specification_adresse }}</td>
+                                                            <td>{{ $item->id_client }}</td>
+                                                            <td>
+                                                                @foreach($transporteurs as $transporteur)
+                                                                    @foreach($pers as $per)
+                                                                        @if ($per->id == $transporteur->id_personnels && $item->id_transporteur == $transporteur->id)
+                                                                            {{ $per->nom }}
                                                                         @endif
-                                                                        @endforeach
-                                                                        @endforeach
-                                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#chooseTransporteurModal" data-id="{{ $item->id }}">
-                                                                Choisir Transporteur
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('detail_commande', ['id_panier' => $item->id_panier]) }}" class="btn btn-info btn-sm">
-                                                                Voir Détails
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                                                    @endforeach
+                                                                @endforeach
+                                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#chooseTransporteurModal" data-id="{{ $item->id }}">
+                                                                    Choisir Transporteur
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ route('detail_commande', ['id_panier' => $item->id_panier]) }}" class="btn btn-info btn-sm">
+                                                                    Voir Détails
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
 
                                 </div>
                             </div>
@@ -298,9 +322,6 @@
             });
         });
     </script>
-    
-    
-    
 </body>
 
 </html>

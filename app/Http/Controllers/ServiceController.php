@@ -99,9 +99,24 @@ class ServiceController extends Controller
 
         return redirect()->route('listeService')->with('success', 'Service supprimé avec succès!');
     }
-    public function getService()
+    public function getService(Request $request)
     {
-        $categories = Service::all();
-        return view('Administrateur/service/listeService', ['data' => $categories]);
+        $searchTerm = $request->input('query');
+    
+        if ($searchTerm) {
+            $services = Service::with('sousCategorie')
+                                ->where('nom', 'LIKE', "%{$searchTerm}%")
+                               
+                                ->get();
+        } else {
+            $services = Service::with('sousCategorie')->get();
+        }
+    
+        if ($request->ajax()) {
+            return response()->json(['data' => $services]);
+        }
+    
+        return view('Administrateur/service/listeService', ['data' => $services, 'searchTerm' => $searchTerm]);
     }
+    
 }

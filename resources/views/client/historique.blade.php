@@ -95,8 +95,11 @@
                                         <span><strong>Prix:</strong> {{ $item->prix }} €</span>
                                         <span><strong>Date Ramassage:</strong> {{ $item->date_ramassage }}</span>
                                         <span><strong>Numéro de Téléphone:</strong> {{ $item->num_tel }}</span>
+                                        <span><strong>Adresse de livraison:</strong> {{ $item->adresse_livraison }}</span>
+                                        <span><strong>Adresse exacte:</strong> {{ $item->specification_adresse }}</span>
                                         <span><strong>Remarque:</strong> {{ $item->remarque }}</span>
                                         <span><strong>Type:</strong> {{ $item->type }}</span>
+
                                         <span>
                                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detailModal{{ $item->id }}">
                                                 Voir Détails

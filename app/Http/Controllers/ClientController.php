@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class ClientController
 {public function profile()
     {
-        $client = Client::find(19); // Fetch the client with ID 1
+        $client = Client::find(26); // Fetch the client with ID 1
         return view('client/faq', compact('client'));
     }
     
@@ -78,7 +78,7 @@ class ClientController
     }
     public function update(Request $request, $id)
     {
-        // Validation des données
+        // Validate the request data
         $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
@@ -87,15 +87,15 @@ class ClientController
             'ville' => 'required|string|max:255',
         ]);
     
-        // Récupérer le client
+        // Retrieve the client by ID
         $client = Client::find($id);
     
-        // Vérifier si le client existe
+        // Check if the client exists
         if (!$client) {
             return redirect()->back()->with('error', 'Client non trouvé');
         }
     
-        // Mettre à jour les informations du client
+        // Update the client's information
         $client->update([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
@@ -104,9 +104,41 @@ class ClientController
             'ville' => $request->ville,
         ]);
     
-        // Rediriger avec un message de succès
+        // Redirect with a success message
         return redirect()->route('client.profile')->with('success', 'Informations du client mises à jour avec succès');
     }
+    
+    public function update1(Request $request, $id)
+{
+    // Validation des données
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenom' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'num_tel' => 'required|string|max:20',
+        'ville' => 'required|string|max:255',
+    ]);
+
+    // Récupérer le client
+    $client = Client::find($id);
+
+    // Vérifier si le client existe
+    if (!$client) {
+        return redirect()->back()->with('error', 'Client non trouvé');
+    }
+
+    // Mettre à jour les informations du client
+    $client->update1([
+        'nom' => $request->nom,
+        'prenom' => $request->prenom,
+        'email' => $request->email,
+        'num_tel' => $request->num_tel,
+        'ville' => $request->ville,
+    ]);
+
+    // Rediriger avec un message de succès
+    return redirect()->route('client.profile')->with('success', 'Informations du client mises à jour avec succès');
+}
 
     public function index(Request $request)
     {
@@ -122,4 +154,5 @@ class ClientController
         $client = Client::find($id);
         return view('Administrateur/client/modifierClient', ['data'=>$client]);
     }
+    
 }

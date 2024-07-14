@@ -11,51 +11,77 @@ use App\Models\commande;
 
 class lignepanierController extends Controller
 {public function valider(Request $request)
-    {  $categories = Service::all();
-        // Check if cart exists in the session
+    {
+        $categories = Service::all();
+    
+        // Créer un nouveau panier
         $panier = panier::create([
             'date_panier' => Carbon::now()->toDateString(),
             'heure_panier' => Carbon::now()->toTimeString()
         ]);
-        
+    
+        $totalSum = 0;
+    
         if (session()->has('cart')) {
             $cart = session()->get('cart');
-            $totalPrice = 0;
             foreach ($cart as $item) {
-                foreach($categories as $itemm){
-                    if ($item['service_id'] == $itemm['id'])
-                $totalPrice += $item['quantity'] * $itemm['prix']; // Assuming $item['service'] contains the related Service model
-            }}
-         
-            // Assuming you have a way to identify the user, e.g., Auth::id() or another method
-            // Modify according to your authentication method
-
-            // Iterate over the cart items and create ligne_panier entries
+                foreach ($categories as $itemm) {
+                    if ($item['service_id'] == $itemm['id']) {
+                        $totalSum += $item['quantity'] * $itemm['prix'];
+                    }
+                }
+            }
+    
+            // Calcul des frais de livraison
+            $fraisLivraison = 0;
+            $adresseLivraison = $request->input('adresse_livraison');
+            if ($adresseLivraison !== 'Gabes Ville' && $adresseLivraison !== 'Gabes Nord' && $adresseLivraison !== 'Gabes Sud') {
+                $fraisLivraison = 10;
+            }
+    
+            $totalWithDelivery = $totalSum + $fraisLivraison;
+    
+            // Créer les entrées de ligne_panier
             foreach ($cart as $item) {
                 ligne_panier::create([
                     'quantite' => $item['quantity'],
                     'id_service' => $item['service_id'],
-                    'id_panier' => $panier->id 
-                    // Assuming 'id_panier' refers to a user ID or an order ID
+                    'id_panier' => $panier->id
                 ]);
-            }   $commande = Commande::create([
+            }
+    
+            // Créer la commande
+            $commande = Commande::create([
                 'date' => Carbon::now()->toDateString(),
                 'heure' => Carbon::now()->toTimeString(),
-                'prix' => $totalPrice,
+                'prix' => $totalWithDelivery,
                 'type' => '1',
                 'id_panier' => $panier->id,
                 'remarque' => $request->input('remarque'),
-                'num_tel' => $request->input('num_tel')
+                'num_tel' => $request->input('num_tel'),
+                'adresse_livraison' => $adresseLivraison,
+                'date_ramassage' => $request->input('date_ramassage'),
+                'specification_adresse' => $request->input('specification_adresse')
             ]);
-        
-            // Clear the cart from the session
+    
+            // Effacer le panier de la session
             session()->forget('cart');
-            
-            return redirect()->back()->with('success', 'Commande validée avec succès!');
         }
-        
-        return redirect()->back()->with('error', 'Votre panier est vide.');
+    
+        // Récupérer les données pour la vue
+        $categories = panier::all();
+        $sousCategories = ligne_panier::all();
+        $commandes = Commande::all();
+        $serv = Service::all();
+    
+        return view('client/historique', [
+            'data' => $commandes,
+            'ligne_panier' => $sousCategories,
+            'panier' => $categories,
+            'service' => $serv
+        ]);
     }
+    
     public function add(Request $request)
     {
         $service = [

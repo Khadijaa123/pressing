@@ -26,10 +26,12 @@ class CommandeController extends Controller
             'date_ramassage' => 'required|date',
             'num_tel' => 'required|string',
             'type' => 'required|string',
+            'adresse_livraison' => 'required|string',
             'remarque' => 'nullable|string',
             'id_client' => 'required|integer|exists:clients,id',
             'id_transporteur' => 'required|integer|exists:transporteurs,id',
             'id_panier' => 'required|integer|exists:paniers,id',
+            'specification_adresse'=> 'required|string'
         ]);
 
         // Créer une nouvelle commande avec les données validées
@@ -37,27 +39,54 @@ class CommandeController extends Controller
 
         return redirect()->route('listeCommandes')->with('success', 'Commande créée avec succès!');
     }
+    
 
     public function create()
     {
         // Retourner la vue pour créer une nouvelle commande
         return view('Administrateur.commande.create');
     }
-
-    public function getCommandes()
+    public function getCommandes(Request $request)
     {
-        $commandes = Commande::all();
+        $searchTerm = $request->input('search');
+        $commandes = Commande::query();
+    
+        if ($searchTerm) {
+            $commandes->where('date', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('heure', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('prix', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('date_ramassage', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('num_tel', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('type', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('remarque', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('adresse_livraison', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('specification_adresse', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('id_client', 'LIKE', "%{$searchTerm}%");
+        }
+    
+        $commandes = $commandes->get();
         $transporteurs = Transporteur::all();
         $personnelsIds = Personnels::all();
         $mostOrderedService = $this->getMostOrderedService();
     
-        return view('Administrateur/commande/listeCommandes', [
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => $commandes,
+                'transporteurs' => $transporteurs,
+                'pers' => $personnelsIds
+            ]);
+        }
+    
+        return view('Administrateur.commande.listeCommandes', [
             'data' => $commandes,
             'transporteurs' => $transporteurs,
             'pers' => $personnelsIds,
-            'mostOrderedService'=> $mostOrderedService 
+            'mostOrderedService' => $mostOrderedService,
+            'searchTerm' => $searchTerm
         ]);
     }
+    
+    
     
     public function getHistorique()
     {

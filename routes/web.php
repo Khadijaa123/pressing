@@ -52,8 +52,8 @@ Route::get('/ajouterClient', function () {
     return view('Administrateur/client/client');
 })->name('ajouterClient');
 Route::get('/client/faq', [ClientController::class, 'profile'])->name('client.profile');
-Route::put('/client/{id}', [ClientController::class, 'update'])->name('client.update');
-
+Route::put('/client/{id}', [ClientController::class, 'update'])->name('client.update'); 
+Route::put('/client', [ClientController::class, 'update1'])->name('client.update1'); 
 
 
 // personnel

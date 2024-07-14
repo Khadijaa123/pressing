@@ -63,8 +63,21 @@ body {
 ol, ul {
 	list-style: none;
 }
+.btn-type-1 { background-color: #007bff; color: white; }
+.btn-type-2 { background-color: #28a745; color: white; }
+.btn-type-3 { background-color: #dc3545; color: white; }
+.btn-type-4 { background-color: #ffc107; color: black; }
 
-        .profile-section {
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .table {
+        min-width: 1200px; /* Adjust as needed */
+    }
+
+       
+.profile-section {
             background-color: #f8f9fa;
             padding: 20px;
             border-radius: 10px;

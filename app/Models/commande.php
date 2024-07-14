@@ -13,5 +13,5 @@ class commande extends Model
     protected $table = 'commande';
 
     // Les champs pouvant être remplis massivement
-    protected $fillable = ['date', 'heure', 'prix', 'date_ramassage', 'num_tel','type','remarque','id_client','id_transporteur','id_panier'];
+    protected $fillable = ['date', 'heure', 'prix', 'adresse_livraison','specification_adresse','date_ramassage', 'num_tel','type','remarque','id_client','id_transporteur','id_panier'];
 }

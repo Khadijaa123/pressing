@@ -77,8 +77,9 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title mb-4">Modifier les informations d'un client</h4>
-                                    <form action="{{ route('client.update') }}" method="POST">
+                                    <form action="{{ route('client.update1',$data->id) }}" method="POST">
                                         @csrf
+                                        @method('PUT')
                                         <input type="hidden" name="id" value="{{ $data->id }}">
 
                                         <div class="row mb-4">

@@ -75,12 +75,25 @@ public function update(Request $request, $id)
 
     return redirect()->route('listeSousCategories')->with('success', 'Sous-catégorie mise à jour avec succès');
 }
-public function getSousCategories()
+public function getSousCategories(Request $request)
+{
+    $searchTerm = $request->input('search');
+    $categories = Categorie::all();
 
-    {$sous =Categorie::all();
-        $categories = SousCategorie::all();
-        return view('Administrateur/souscategorie/listeSousCategorie', ['data' => $categories , 'dataa'=>$sous]);
+    if ($searchTerm) {
+        $sousCategories = SousCategorie::with('categorie')
+            ->where('nom', 'LIKE', "%{$searchTerm}%")
+            ->get();
+    } else {
+        $sousCategories = SousCategorie::with('categorie')->get();
     }
+
+    if ($request->ajax()) {
+        return response()->json(['data' => $sousCategories]);
+    }
+
+    return view('Administrateur.souscategorie.listeSousCategorie', ['data' => $sousCategories, 'dataa' => $categories, 'searchTerm' => $searchTerm]);
+}
     public function destroy($id)
     {
         $sousCategorie = SousCategorie::findOrFail($id);
